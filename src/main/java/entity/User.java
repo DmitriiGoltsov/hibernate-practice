@@ -2,6 +2,8 @@ package entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,4 +32,7 @@ public class User {
     private LocalDate birthday;
 
     private Integer age;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
