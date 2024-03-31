@@ -1,5 +1,6 @@
 package org.goltsov;
 
+import entity.Role;
 import entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,6 +28,7 @@ public class HibernateRunner {
                     .surname("Fucker")
                     .birthday(LocalDate.of(1999, Month.DECEMBER, 15))
                     .age(25)
+                    .role(Role.ADMIN)
                     .build();
 
             session.persist(user);
