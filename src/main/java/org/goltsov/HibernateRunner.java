@@ -1,5 +1,7 @@
 package org.goltsov;
 
+import converter.BirthdayConvertor;
+import entity.Birthday;
 import entity.Role;
 import entity.User;
 import org.hibernate.Session;
@@ -16,6 +18,7 @@ public class HibernateRunner {
         Configuration configuration = new Configuration();
         configuration.configure();
         configuration.addAnnotatedClass(User.class);
+        configuration.addAttributeConverter(BirthdayConvertor.class, true);
 
         try (SessionFactory factory = configuration.buildSessionFactory();
             Session session = factory.openSession()) {
@@ -26,8 +29,7 @@ public class HibernateRunner {
                     .username("PussyDestroyer1811@gmail.com")
                     .name("Gaylord")
                     .surname("Fucker")
-                    .birthday(LocalDate.of(1999, Month.DECEMBER, 15))
-                    .age(25)
+                    .birthDate(new Birthday(LocalDate.of(1999, Month.DECEMBER, 15)))
                     .role(Role.ADMIN)
                     .build();
 

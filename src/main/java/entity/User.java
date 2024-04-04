@@ -1,6 +1,9 @@
 package entity;
 
+import converter.BirthdayConvertor;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,10 +31,9 @@ public class User {
 
     private String surname;
 
+    // @Convert(converter = BirthdayConvertor.class)
     @Column(name = "birth_day")
-    private LocalDate birthday;
-
-    private Integer age;
+    private Birthday birthDate;
 
     @Enumerated(EnumType.STRING)
     private Role role;
