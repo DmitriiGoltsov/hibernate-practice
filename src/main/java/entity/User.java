@@ -1,20 +1,23 @@
 package entity;
 
 import converter.BirthdayConvertor;
+
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import org.hibernate.annotations.Type;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,4 +40,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Type(JsonBinaryType.class)
+    private String info;
 }
