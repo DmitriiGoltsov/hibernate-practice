@@ -4,6 +4,7 @@ import converter.BirthdayConvertor;
 import entity.Birthday;
 import entity.Role;
 import entity.User;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -31,13 +32,17 @@ public class HibernateRunner {
                     .surname("Fucker")
                     .birthDate(new Birthday(LocalDate.of(1999, Month.DECEMBER, 15)))
                     .role(Role.ADMIN)
+                    .info("""
+                            {
+                                "name": "destroyer",
+                                "id": 25
+                            }
+                            """)
                     .build();
 
             session.persist(user);
 
             transaction.commit();
-
-
         }
     }
 }
