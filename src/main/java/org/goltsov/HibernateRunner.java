@@ -26,10 +26,11 @@ public class HibernateRunner {
 
             Transaction transaction = session.beginTransaction();
 
+            /*
             User user = User.builder()
                     .username("PussyDestroyer1811@gmail.com")
                     .name("Gaylord")
-                    .surname("Fucker")
+                    .surname("Fuckerer")
                     .birthDate(new Birthday(LocalDate.of(1999, Month.DECEMBER, 15)))
                     .role(Role.ADMIN)
                     .info("""
@@ -39,10 +40,16 @@ public class HibernateRunner {
                             }
                             """)
                     .build();
+                    */
 
-            session.persist(user);
+//            session.persist(user);
+//            session.merge(user);
+
+            User userFromDB = session.get(User.class, "PussyDestroyer1811@gmail.com");
 
             transaction.commit();
+
+            System.out.println("\nUser is " + userFromDB.toString());
         }
     }
 }
