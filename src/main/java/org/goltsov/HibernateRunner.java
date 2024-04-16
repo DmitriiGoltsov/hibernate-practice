@@ -9,47 +9,50 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import util.HibernateUtil;
 
 import java.time.LocalDate;
 import java.time.Month;
 
 public class HibernateRunner {
 
+    public static final Logger logger = LoggerFactory.getLogger(HibernateRunner.class);
+
     public static void main(String[] args) {
-        Configuration configuration = new Configuration();
-        configuration.configure();
-        configuration.addAnnotatedClass(User.class);
-        configuration.addAttributeConverter(BirthdayConvertor.class, true);
-
-        try (SessionFactory factory = configuration.buildSessionFactory();
-            Session session = factory.openSession()) {
-
-            Transaction transaction = session.beginTransaction();
-
-            /*
-            User user = User.builder()
-                    .username("PussyDestroyer1811@gmail.com")
-                    .name("Gaylord")
-                    .surname("Fuckerer")
-                    .birthDate(new Birthday(LocalDate.of(1999, Month.DECEMBER, 15)))
-                    .role(Role.ADMIN)
-                    .info("""
+        User user = User.builder()
+                .username("PussyDestroyer1811@gmail.com")
+                .name("Gaylord")
+                .surname("Fuckerer")
+                .birthDate(new Birthday(LocalDate.of(1999, Month.DECEMBER, 15)))
+                .role(Role.ADMIN)
+                .info("""
                             {
                                 "name": "destroyer",
                                 "id": 25
                             }
                             """)
-                    .build();
-                    */
+                .build();
+        logger.info("User entity is in transient state, object: {}", user);
 
-//            session.persist(user);
-//            session.merge(user);
 
-            User userFromDB = session.get(User.class, "PussyDestroyer1811@gmail.com");
+        try (SessionFactory factory = HibernateUtil.buildSessionFactory()) {
+            Session session1 = factory.openSession();
 
-            transaction.commit();
+            try (session1) {
+                Transaction transaction = session1.beginTransaction();
+                logger.trace("Transaction is created, {}", transaction);
 
-            System.out.println("\nUser is " + userFromDB.toString());
+                session1.persist(user);
+                logger.trace("User is in persistent state: {}, session {}", user, session1);
+
+                session1.getTransaction().commit();
+            }
+            logger.warn("User is in detached state: {}, session is closed {}", user, session1);
+        } catch (Exception exception) {
+            logger.error("Exception has occurred!", exception);
+            throw exception;
         }
     }
 }
