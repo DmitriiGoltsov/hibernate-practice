@@ -1,6 +1,7 @@
 package util;
 
 import converter.BirthdayConvertor;
+import entity.Company;
 import entity.User;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
@@ -17,6 +18,7 @@ public class HibernateUtil {
         Configuration configuration = new Configuration();
         configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
         configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(Company.class);
         configuration.addAttributeConverter(BirthdayConvertor.class, true);
         //configuration.registerTypeOverride(new JsonBinaryType());
         configuration.configure();
