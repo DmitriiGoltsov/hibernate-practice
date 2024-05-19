@@ -9,6 +9,7 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +22,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
@@ -31,6 +33,7 @@ import java.util.Date;
 @Data
 @Builder
 @Entity
+@ToString(exclude = "company")
 @Table(name = "users", schema = "public")
 public class User {
 
@@ -57,7 +60,7 @@ public class User {
     @Type(JsonBinaryType.class)
     private String info;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 }

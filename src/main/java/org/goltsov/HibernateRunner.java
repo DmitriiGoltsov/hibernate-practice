@@ -50,8 +50,14 @@ public class HibernateRunner {
             try (session1) {
                 Transaction transaction = session1.beginTransaction();
 
-                session1.persist(company);
-                session1.persist(user);
+//                session1.persist(company);
+//                session1.persist(user);
+
+                User user1 = session1.get(User.class, 1L);
+                //Company company1 = session1.get(Company.class, 1L);
+
+                System.out.println(user1);
+                //System.out.println("Company is " + company1);
 
                 session1.getTransaction().commit();
             }
