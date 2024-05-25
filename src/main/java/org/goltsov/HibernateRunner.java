@@ -6,6 +6,7 @@ import entity.Company;
 import entity.Role;
 import entity.User;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -46,18 +47,15 @@ public class HibernateRunner {
 
         try (SessionFactory factory = HibernateUtil.buildSessionFactory()) {
             Session session1 = factory.openSession();
-
             try (session1) {
                 Transaction transaction = session1.beginTransaction();
 
-//                session1.persist(company);
-//                session1.persist(user);
-
                 User user1 = session1.get(User.class, 1L);
-                //Company company1 = session1.get(Company.class, 1L);
-
-                System.out.println(user1);
-                //System.out.println("Company is " + company1);
+                Company company1 = user1.getCompany();
+                String name = company1.getName();
+//                session1.save(company);
+//                session1.save(user);
+                Object object = Hibernate.unproxy(company1);
 
                 session1.getTransaction().commit();
             }
