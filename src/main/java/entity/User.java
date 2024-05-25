@@ -20,6 +20,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import lombok.ToString;
@@ -33,6 +34,7 @@ import java.util.Date;
 @Data
 @Builder
 @Entity
+@EqualsAndHashCode(of = "username")
 @ToString(exclude = "company")
 @Table(name = "users", schema = "public")
 public class User {
