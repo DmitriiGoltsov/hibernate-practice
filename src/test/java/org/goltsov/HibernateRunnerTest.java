@@ -1,9 +1,15 @@
 package org.goltsov;
 
+import entity.Company;
 import entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import lombok.Cleanup;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
+import util.HibernateUtil;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -19,6 +25,55 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HibernateRunnerTest {
+
+    @Test
+    void deleteCompanyTest() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        User user = session.get(User.class, 1);
+        session.detach(user);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    void addUserToCompanyTest() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = Company.builder()
+                .name("Facebook")
+                .build();
+
+        User user = User.builder()
+                .username("sveta@gmail.com")
+                .build();
+
+        company.addUserToCompany(user);
+
+        session.persist(company);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    void oneToManyTest() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = session.get(Company.class, 1L);
+        Hibernate.initialize(company.getUsers());
+        System.out.println(company.getUsers());
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void checkReflectionAPI() throws SQLException, IllegalAccessException {

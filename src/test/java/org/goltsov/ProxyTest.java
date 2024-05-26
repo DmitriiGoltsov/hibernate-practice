@@ -3,8 +3,6 @@ package org.goltsov;
 import entity.Company;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public class ProxyTest {
